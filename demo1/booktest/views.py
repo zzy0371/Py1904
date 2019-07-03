@@ -3,20 +3,15 @@ from django.shortcuts import render
 # 接受请求，处理数据，返回相应
 # Create your views here.
 from django.http import HttpResponse
+from django.template import loader
+from .models import BookInfo,HeroInfo
 
 def index(request):
-    return HttpResponse("这里是首页   <a href='/list/'>跳转到列表页</a> ")
-
+    return render(request,"booktest/index.html",{"username":"zzy"})
 def list(request):
-    s = """
-    <br>
-    <a href='/detail/1/'>跳转到详情页1</a> 
-    <br>
-    <a href='/detail/2/'>跳转到详情页2</a> 
-    <br>
-    <a href='/detail/3/'>跳转到详情页3</a> 
-    """
-    return HttpResponse("这里是列表页 %s"%(s,))
+    books = BookInfo.objects.all()
+    return render(request,"booktest/list.html",{"books":books})
 
 def detail(request,id):
-    return HttpResponse("这里是%s详情页 <a href='/'>跳转到首页</a> "%(id,))
+    book = BookInfo.objects.get(pk=id)
+    return render(request,"booktest/detail.html",{"book":book})
