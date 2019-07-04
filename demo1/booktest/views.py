@@ -5,13 +5,33 @@ from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse,HttpResponseRedirect
 from django.template import loader
 from .models import BookInfo,HeroInfo
+from django.views.generic import View,TemplateView,ListView
+
+class IndexTemplateView(TemplateView):
+    template_name = "booktest/index.html"
+    def get_context_data(self, **kwargs):
+        return {"username":"zzy"}
+
+class IndexView(View):
+    def get(self,request):
+        return render(request, "booktest/index.html", {"username": "zzy"})
 
 def index(request):
     return render(request,"booktest/index.html",{"username":"zzy"})
 
+class ListView(ListView):
+    model = BookInfo
+    template_name = "booktest/list.html"
+    context_object_name = "books"
+
+    # def get_queryset(self):
+    #     return BookInfo.objects.all()
+
+
 def list(request):
     books = BookInfo.objects.all()
     return render(request,"booktest/list.html",{"books":books})
+
 
 def detail(request,id):
     book = BookInfo.objects.get(pk=id)

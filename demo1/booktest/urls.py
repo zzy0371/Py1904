@@ -4,8 +4,13 @@ app_name = "booktest"
 # 应用路由配置
 urlpatterns = [
     # 访问对应的路由可以执行对应的视图函数
-    url(r'^$',views.index,name="index"),
-    url(r'^list/$',views.list,name="list"),
+    # url(r'^$',views.index,name="index"),
+    # url(r'^$',views.IndexView.as_view(),name="index"),
+    url(r'^$',views.IndexTemplateView.as_view(),name="index"),
+
+    # url(r'^list/$',views.list,name="list"),
+    url(r'^list/$',views.ListView.as_view(),name="list"),
+
     url(r'^detail/(\d+)/$',views.detail,name="detail"),
 
     url(r'^deletebook/(\d+)/$',views.deletebook,name="deletebook"),
