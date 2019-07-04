@@ -41,12 +41,6 @@ def deletehero(request,id):
     hero = HeroInfo.objects.get(pk = id)
     bookid = hero.book.id
     hero.delete()
-    # return HttpResponse("删除成功")
-
-    # return HttpResponseRedirect("/detail/"+ str(bookid) +  "/")
-
-    # result = reverse("booktest:detail", args=(bookid,))
-    # return redirect("/detail/"+ str(bookid) + "/")
     return redirect( reverse("booktest:detail",args=(bookid,) ) )
 
 
