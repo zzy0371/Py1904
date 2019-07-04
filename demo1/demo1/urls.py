@@ -18,5 +18,16 @@ from django.urls import path
 from django.conf.urls import url,include
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url('',include('booktest.urls')),
+    # 在项目跟路由下通过url 以及 include指明应用路由的配置文件
+    url('',include('booktest.urls',namespace="booktest")),
 ]
+
+"""
+解除硬编码
+   硬编码：在静态文件写入超级链接绝对路径
+    缺点：当路由地址发生变化，所有绝对路径编写的超级链接都需要更改
+ 解除硬编码可以避免绝对路径 
+    1，使用应用命名空间
+    2，使用路由的名字
+
+"""

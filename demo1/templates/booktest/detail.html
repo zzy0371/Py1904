@@ -15,7 +15,7 @@
     <h3>拥有角色</h3>
     <ul>
         {% for hero in book.heroinfo_set.all %}
-        <li>{{ hero.name }} -- {{ hero.content }}</li>
+        <li>{{ hero.name }} -- {{ hero.content }} -- <a href="{% url 'booktest:deletehero' hero.id %}">删除</a></li>
         {% endfor %}
 
     </ul>
@@ -25,8 +25,12 @@
 
     {% endif %}
 
+    <br>
+    <a href="{% url 'booktest:addhero' book.id %}">添加英雄</a>
+    <br>
+    {# <a href="/">返回首页</a> #}
 
-    <a href="/">返回首页</a>
+    <a href="{% url 'booktest:index' %}">返回首页</a>
 
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
