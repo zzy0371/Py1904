@@ -11,7 +11,9 @@ class BookInfo(models.Model):
 
 class HeroInfo(models.Model):
     name = models.CharField(max_length=20)
-    gender = models.BooleanField(default=True)
+    # gender = models.BooleanField(default=True)
+    gender = models.CharField(max_length=5,choices= ( ("man","男"),("women","女"))   )
+    type = models.CharField(max_length=5,choices=(("man","男"),("women","女") ),default="man")
     content = models.CharField(max_length=100)
     # ORM 中book为BookInfo的实例  但是数据库中book存储的仍然为id
     book = models.ForeignKey(BookInfo,on_delete=models.CASCADE)
