@@ -52,13 +52,14 @@ def addhero(request,id):
         content = request.POST.get("content")
         gender = request.POST.get("gender")
         gender1 = request.POST.get("gender1")
-        hero = HeroInfo()
-        hero.name = name
-        hero.content = content
-        hero.book = book
-        hero.gender = gender
-        hero.type = gender1
-        hero.save()
+        HeroInfo.objects.addhero(name,content,book,gender,gender1)
+        # hero = HeroInfo()
+        # hero.name = name
+        # hero.content = content
+        # hero.book = book
+        # hero.gender = gender
+        # hero.type = gender1
+        # hero.save()
         return redirect(reverse("booktest:detail",args=(id,)))
 
 def deletehero(request,id):

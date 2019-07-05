@@ -9,6 +9,16 @@ class BookInfo(models.Model):
     def __str__(self):
         return self.title
 
+class HeroInfoManager(models.Manager):
+    def addhero(self,_name,_content,_book,_gender,_gender1):
+        hero = HeroInfo()
+        hero.name = _name
+        hero.content = _content
+        hero.book = _book
+        hero.gender = _gender
+        hero.type = _gender1
+        hero.save()
+
 class HeroInfo(models.Model):
     name = models.CharField(max_length=20)
     # gender = models.BooleanField(default=True)
@@ -17,7 +27,7 @@ class HeroInfo(models.Model):
     content = models.CharField(max_length=100)
     # ORM 中book为BookInfo的实例  但是数据库中book存储的仍然为id
     book = models.ForeignKey(BookInfo,on_delete=models.CASCADE)
-
+    objects = HeroInfoManager()
     def __str__(self):
         return self.name
 

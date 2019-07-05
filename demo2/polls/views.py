@@ -14,9 +14,12 @@ def detail(request,id):
         return render(request, "polls/detail.html",locals())
     elif request.method == "POST":
         choiceid = request.POST.get("choice")
-        choice = Choice.objects.get(pk = choiceid)
-        choice.votes += 1
-        choice.save()
+        # choice = Choice.objects.get(pk = choiceid)
+        # choice.votes += 1
+        # choice.save()
+        Choice.objects.incresevotes(choiceid)
+
+
         # 没有重定向，如果刷新浏览器会 再次发起post请求，结果不对
         # return render(request,"polls/result.html",{"question":question})
         return redirect(reverse("polls:result", args=(id,)))
