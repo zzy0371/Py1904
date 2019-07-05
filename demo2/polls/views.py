@@ -9,7 +9,12 @@ def index(request):
 
 
 def detail(request,id):
-    question = Question.objects.get(pk=id)
+    try:
+        question = Question.objects.get(pk=id)
+    except Question.DoesNotExist:
+        return HttpResponse("id非法")
+    except Question.MultipleObjectsReturned:
+        return HttpResponse("id非法")
     if request.method == "GET":
         return render(request, "polls/detail.html",locals())
     elif request.method == "POST":
