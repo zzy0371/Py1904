@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question,Choice,Temp
+from .models import Question,Choice,Temp,Area
 # Register your models here.
 class ChoiceInline(admin.StackedInline):
     model = Choice
@@ -11,3 +11,4 @@ class QuestionAdmin(admin.ModelAdmin):
 admin.site.register(Question,QuestionAdmin)
 admin.site.register(Choice)
 admin.site.register(Temp)
+admin.site.register(Area)
