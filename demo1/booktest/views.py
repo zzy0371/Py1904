@@ -1,16 +1,16 @@
-from django.shortcuts import render,redirect,reverse
+from django.shortcuts import render,redirect,reverse,get_list_or_404
 # MVT  中核心V视图
 # 接受请求，处理数据，返回相应
 # Create your views here.
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse,HttpResponseRedirect,JsonResponse
 from django.template import loader
-from .models import BookInfo,HeroInfo
+from .models import BookInfo,HeroInfo,Ads
 from django.views.generic import View,TemplateView,ListView
 
 class IndexTemplateView(TemplateView):
     template_name = "booktest/index.html"
     def get_context_data(self, **kwargs):
-        return {"username":"zzy"}
+        return {"username":"zzy","ads":Ads.objects.all()}
 
 class IndexView(View):
     def get(self,request):
@@ -29,7 +29,8 @@ class ListView(ListView):
 
 
 def list(request):
-    books = BookInfo.objects.all()
+    # books = BookInfo.objects.all()
+    books =  get_list_or_404(BookInfo)
     return render(request,"booktest/list.html",{"books":books})
 
 
@@ -67,6 +68,20 @@ def deletehero(request,id):
     bookid = hero.book.id
     hero.delete()
     return redirect( reverse("booktest:detail",args=(bookid,) ) )
+
+
+class UploadAdsView(View):
+    def get(self,request):
+        # return JsonResponse({"statecode":0,"errorinfo":"未知原因"})
+        return render(request,"booktest/uploadads.html")
+    def post(self,request):
+        ads = Ads()
+        ads.desc = request.POST.get("desc")
+        img = request.FILES["uploadimg"]
+        ads.img = img
+        ads.doc = request.FILES.get("doc")
+        ads.save()
+        return HttpResponse("上传成功")
 
 
 

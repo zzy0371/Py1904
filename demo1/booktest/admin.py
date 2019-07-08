@@ -21,3 +21,5 @@ class HeroInfoAdmin(admin.ModelAdmin):
     list_display = ["name","content"]
     search_fields = ("name","content")
 admin.site.register(HeroInfo,HeroInfoAdmin)
+
+admin.site.register(Ads)

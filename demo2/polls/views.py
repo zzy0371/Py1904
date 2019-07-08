@@ -1,9 +1,11 @@
-from django.shortcuts import render,redirect,reverse
-from django.http import HttpResponse
+from django.shortcuts import render,redirect,reverse,get_object_or_404
+from django.http import HttpResponse,Http404
 # Create your views here.
 from .models import Question,Choice
 
 def index(request):
+    print(request)
+    print(dir(request))
     questions = Question.objects.all()
     return render(request,"polls/index.html",locals())
 
@@ -31,5 +33,6 @@ def detail(request,id):
 
 
 def result(request,id):
-    question = Question.objects.get(pk = id)
+    # question = Question.objects.get(pk = id)
+    get_object_or_404(Question,pk=id)
     return render(request, "polls/result.html",locals())
