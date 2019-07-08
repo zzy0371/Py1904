@@ -12,6 +12,11 @@
 </head>
 <body>
     <div class="container">
+
+        {% if username %}
+         当前用户为 {{ username }} <a href="{% url 'polls:logout' %}">退出登录</a>
+        {% endif %}
+
         <h2>问题列表</h2>
         {% if questions %}
             <ul>
