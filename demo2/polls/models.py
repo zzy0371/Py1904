@@ -58,5 +58,8 @@ class Area(models.Model):
     def __str__(self):
         return self.title
 
+class PollsUser(User):
+    telepone = models.CharField(max_length=11)
+
 
 

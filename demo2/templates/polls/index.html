@@ -13,8 +13,8 @@
 <body>
     <div class="container">
 
-        {% if username %}
-         当前用户为 {{ username }} <a href="{% url 'polls:logout' %}">退出登录</a>
+        {% if request.user and request.user.is_authenticated %}
+            当前用户为{{ request.user }} <a href="{% url 'polls:logout' %}">退出</a>
         {% endif %}
 
         <h2>问题列表</h2>
