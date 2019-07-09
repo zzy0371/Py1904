@@ -3,7 +3,7 @@ from django.http import HttpResponse,Http404
 # Create your views here.
 from .models import Question,Choice,PollsUser
 from django.contrib.auth import login as lgi ,logout as lgo ,authenticate
-
+from .forms import *
 def checklogin(fun):
     def check(request,*args):
         if request.user and request.user.is_authenticated:
@@ -42,14 +42,22 @@ def result(request,id):
 
 def login(request):
     if request.method == "GET":
-        return render(request,'polls/login.html')
+        lgf = LoginForm()
+        return render(request,'polls/login.html',{"lgf":lgf})
     elif request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        user = authenticate(request,username = username,password=password)
-        if user:
-            lgi(request,user)
-            return redirect(reverse("polls:index"))
+        # username = request.POST.get("username")
+        # password = request.POST.get("password")
+
+        lgf = LoginForm(request.POST)
+        if lgf.is_valid():
+            username = lgf.cleaned_data["username"]
+            password = lgf.cleaned_data["password"]
+            user = authenticate(request,username = username,password=password)
+            if user:
+                lgi(request,user)
+                return redirect(reverse("polls:index"))
+            else:
+                return render(request, 'polls/login.html', {"errors": "登录失败"})
         else:
             return render(request, 'polls/login.html', {"errors": "登录失败"})
 
