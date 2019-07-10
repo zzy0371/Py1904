@@ -51,7 +51,7 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-{% for article in articles %}
+{% for article in page.object_list %}
     <article class="post post-{{ article.id }}">
     <header class="entry-header">
         <h1 class="entry-title">
@@ -87,7 +87,19 @@
 -->
 <div class="pagination col-md-11">
     <ul>
-        <li class="col-md-2"><a href="">上一页</a></li>
+        {% if page.has_previous %}
+        <li class="col-md-2"><a href="/?page={{ page.previous_page_number }}">上一页</a></li>
+        {% endif %}
+
+        {% for i in page.paginator.page_range %}
+            {% if i == page.number %}
+                <li class="current col-md-1"><a href="/?page={{i}}">{{ i }}</a></li>
+            {% else %}
+                <li class="col-md-1"><a href="/?page={{i}}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% comment %}
         <li class="col-md-1"><a href="">...</a></li>
         <li class="col-md-1"><a href="">53</a></li>
         <li class="col-md-1"><a href="">54</a></li>
@@ -95,7 +107,11 @@
         <li class="col-md-1"><a href="">56</a></li>
         <li class="col-md-1"><a href="">57</a></li>
         <li class="col-md-1"><a href="">...</a></li>
-        <li class="col-md-2"><a href="">下一页</a></li>
+        {% endcomment %}
+
+        {% if page.has_next %}
+        <li class="col-md-2"><a href="/?page={{ page.next_page_number }}">下一页</a></li>
+        {% endif %}
     </ul>
 </div>
 {% endblock %}
