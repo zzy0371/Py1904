@@ -7,11 +7,18 @@ class Ads(models.Model):
     desc = models.CharField(max_length=20)
     index = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.desc
+
 class Category(models.Model):
     title = models.CharField(max_length=20)
+    def __str__(self):
+        return self.title
 
 class Tag(models.Model):
     title = models.CharField(max_length=10)
+    def __str__(self):
+        return self.title
 
 class Article(models.Model):
     title = models.CharField(max_length=20)
@@ -21,8 +28,10 @@ class Article(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     views = models.IntegerField(default=0)
     # body = models.TextField()
-    body = UEditorField(imagePath="articleimg/")
+    body = UEditorField(imagePath="articleimg/",width="100%")
     tags = models.ManyToManyField(Tag)
+    def __str__(self):
+        return self.title
 
 
 
