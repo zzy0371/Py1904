@@ -28,7 +28,10 @@ PLUGINS = (
     'language',
     'quickfilter',
     'sortablelist',
-    'importexport'
+    'importexport',
+    # 注册编写的插件
+    'ueditor',
+
 )
 
 

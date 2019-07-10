@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from DjangoUeditor.models import UEditorField
 # Create your models here.
 class Ads(models.Model):
     img = models.ImageField(upload_to="ads")
@@ -19,7 +20,8 @@ class Article(models.Model):
     update_time = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     views = models.IntegerField(default=0)
-    body = models.TextField()
+    # body = models.TextField()
+    body = UEditorField(imagePath="articleimg/")
     tags = models.ManyToManyField(Tag)
 
 
