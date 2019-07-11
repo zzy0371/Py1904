@@ -15,7 +15,6 @@ def getpage(request,object_list,per_num):
 
 class IndexView(View):
     def get(self,request):
-        ads = Ads.objects.all()
         articles = Article.objects.all()
         # paginator = Paginator(articles,1)
         # print(paginator.page_range) #[1,5]
@@ -34,7 +33,7 @@ class IndexView(View):
 
         page = getpage(request,articles,1)
 
-        return render(request,'blog/index.html',{"page":page,"ads":ads})
+        return render(request,'blog/index.html',{"page":page})
 
 class SingleView(View):
 
@@ -72,3 +71,16 @@ class ArchivesView(View):
         page = getpage(request, articles, 1)
         return render(request,"blog/index.html",{"page":page})
 
+class CategorysView(View):
+    def get(self,request,id):
+        category = get_object_or_404(Category,pk=id)
+        articles = category.article_set.all()
+        page = getpage(request,articles,1)
+        return render(request,'blog/index.html',{"page":page})
+
+class TagsView(View):
+    def get(self,request,id):
+        tag = get_object_or_404(Tag,pk=id)
+        articles = tag.article_set.all()
+        page = getpage(request,articles,1)
+        return render(request, 'blog/index.html', {"page": page})

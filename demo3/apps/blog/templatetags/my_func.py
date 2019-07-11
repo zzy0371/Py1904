@@ -5,7 +5,12 @@
 
 from django.template import library
 register = library.Library()
-from blog.models import Article
+from blog.models import Article,Category,Tag,Ads
+
+@register.simple_tag
+def getads():
+    return Ads.objects.all()
+
 
 @register.simple_tag
 def getlatestarticles(num=3):
@@ -16,7 +21,13 @@ def gettimes():
     times = Article.objects.dates("create_time","month","DESC")
     return times
 
+@register.simple_tag
+def getcategorys():
+    return Category.objects.all()
 
+@register.simple_tag
+def gettags():
+    return Tag.objects.all()
 
 
 

@@ -21,6 +21,7 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
+        {% getads as ads %}
         {% for a in ads %}
         {% if forloop.counter == 1 %}
         <div class="item active">
@@ -69,7 +70,7 @@
         </div>
     </header>
     <div class="entry-content clearfix">
-        <p>{{article.body|safe|truncatechars:150}}</p>
+        {{article.body|safe}}
         <div class="read-more cl-effect-14">
             <a href="#" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
         </div>
