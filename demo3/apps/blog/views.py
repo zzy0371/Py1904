@@ -1,10 +1,11 @@
-from django.shortcuts import render,redirect,reverse
+from django.shortcuts import render,redirect,reverse,get_object_or_404
 from django.views.generic import View
 from django.http import HttpResponse
 from .models import *
-from .forms import ArticleForm
+from .forms import ArticleForm,CommentForm
 # Create your views here.
 from django.core.paginator import Paginator,Page
+
 
 class IndexView(View):
     def get(self,request):
@@ -27,16 +28,24 @@ class IndexView(View):
 
         pagenum = request.GET.get("page")
         pagenum = 1 if not pagenum else pagenum
-        page = Paginator(articles,2).get_page(pagenum)
-        return render(request,'blog/index.html',{"page":page})
+        page = Paginator(articles,1).get_page(pagenum)
+        return render(request,'blog/index.html',{"page":page,"ads":ads})
 
 class SingleView(View):
-    def get(self,request,id):
-        article = Article.objects.all()
 
-        return render(request,'blog/single.html')
+    def get(self,request,id):
+        article = get_object_or_404(Article, pk=id)
+        article.views += 1
+        article.save()
+        cf = CommentForm()
+        return render(request,'blog/single.html',{"article":article,"cf":cf})
     def post(self,request,id):
-        return render(request,'blog/single.html')
+        article = get_object_or_404(Article, pk=id)
+        cf = CommentForm(request.POST)
+        comment = cf.save(commit=False)
+        comment.article = article
+        comment.save()
+        return redirect(reverse("blog:single", args=(article.id,)))
 
 class AddArticleView(View):
     def get(self,request):

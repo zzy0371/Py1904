@@ -80,7 +80,7 @@
                         {% getlatestarticles 5 as latestarticles %}
                         {% for a in latestarticles %}
                         <li>
-                            <a href="#">{{ a.title }}</a>
+                            <a href="{% url 'blog:single' a.id %}">{{ a.title }}</a>
                         </li>
                         {% endfor %}
 
