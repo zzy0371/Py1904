@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,reverse,get_object_or_404
-from django.http import HttpResponse,Http404
+from django.http import HttpResponse,Http404,JsonResponse
 # Create your views here.
 from .models import Question,Choice,PollsUser
 from django.contrib.auth import login as lgi ,logout as lgo ,authenticate
@@ -109,3 +109,14 @@ user.set_password()
 user.check_password()
 
 """
+
+
+def checkuser(request):
+    if request.method == "GET":
+        name = request.GET.get("name")
+        qs = PollsUser.objects.filter(username=name)
+        user = qs.first()
+        if user:
+            return JsonResponse({"state":1})
+        else:
+            return JsonResponse({"state":0,'errorinfo':"用户名不存在"})

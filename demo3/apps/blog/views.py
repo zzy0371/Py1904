@@ -6,6 +6,12 @@ from .forms import ArticleForm,CommentForm
 # Create your views here.
 from django.core.paginator import Paginator,Page
 
+def getpage(request,object_list,per_num):
+    pagenum = request.GET.get("page")
+    pagenum = 1 if not pagenum else pagenum
+    page = Paginator(object_list, per_num).get_page(pagenum)
+    return page
+
 
 class IndexView(View):
     def get(self,request):
@@ -26,9 +32,8 @@ class IndexView(View):
         # print(page.has_next())
         # print(page.has_previous())
 
-        pagenum = request.GET.get("page")
-        pagenum = 1 if not pagenum else pagenum
-        page = Paginator(articles,1).get_page(pagenum)
+        page = getpage(request,articles,1)
+
         return render(request,'blog/index.html',{"page":page,"ads":ads})
 
 class SingleView(View):
@@ -60,4 +65,10 @@ class AddArticleView(View):
             article.save()
             return redirect(reverse('blog:index'))
         return HttpResponse("添加失败")
+
+class ArchivesView(View):
+    def get(self,request,year,month):
+        articles = Article.objects.filter(create_time__year=year, create_time__month=month)
+        page = getpage(request, articles, 1)
+        return render(request,"blog/index.html",{"page":page})
 

@@ -11,6 +11,16 @@ from blog.models import Article
 def getlatestarticles(num=3):
     return Article.objects.order_by("-create_time")[:num]
 
+@register.simple_tag
+def gettimes():
+    times = Article.objects.dates("create_time","month","DESC")
+    return times
+
+
+
+
+
+
 @register.filter
 def mylower(value):
     return value.lower()

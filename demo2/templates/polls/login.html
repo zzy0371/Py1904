@@ -143,5 +143,28 @@
 
 </div>
 
+<script>
+    $(function(){
+        $("#username").blur(function(){
+        console.log("输入了用户名",$(this).val());
+            $.ajax({
+                url:{% url 'polls:checkuser' %},
+                type:"get",
+                data:{
+                "name":$(this).val()
+                },
+                success:function(data){
+                    if(data.state == 0)
+                    {
+                        alert( data.errorinfo )
+                    }
+                }
+            })
+        })
+    })
+
+
+</script>
+
 </body>
 </html>

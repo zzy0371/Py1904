@@ -89,15 +89,12 @@
                 <div class="widget widget-archives">
                     <h3 class="widget-title">归档</h3>
                     <ul>
-                        <li>
-                            <a href="#">2017 年 5 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 4 月</a>
-                        </li>
-                        <li>
-                            <a href="#">2017 年 3 月</a>
-                        </li>
+                        {% gettimes as times %}
+                        {% for o in times %}
+                            <li>
+                                <a href="{% url 'blog:archives' o.year o.month %}">{{o.year}} 年 {{o.month}} 月</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
 
