@@ -10,3 +10,15 @@ from blog.models import Article
 @register.simple_tag
 def getlatestarticles(num=3):
     return Article.objects.order_by("-create_time")[:num]
+
+@register.filter
+def mylower(value):
+    return value.lower()
+
+@register.filter
+def myjoin(value,spl):
+    return spl.join(value)
+
+@register.filter
+def myjoin2(value,spl,s):
+    return spl.join(value) + s

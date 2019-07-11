@@ -27,7 +27,7 @@ class IndexView(View):
 
         pagenum = request.GET.get("page")
         pagenum = 1 if not pagenum else pagenum
-        page = Paginator(articles,1).get_page(pagenum)
+        page = Paginator(articles,2).get_page(pagenum)
         return render(request,'blog/index.html',{"page":page})
 
 class SingleView(View):
