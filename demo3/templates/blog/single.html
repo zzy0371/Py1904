@@ -23,8 +23,9 @@
 </article>
 
 
-
 <section class="comment-area" id="comment-area">
+
+    {% comment %}
     <hr>
     <h3>发表评论</h3>
     <form action="{% url 'blog:single' article.id  %}" method="post" class="comment-form">
@@ -54,7 +55,7 @@
         <ul class="comment-list list-unstyled">
 
             {% for o in article.comment_set.all %}
-                <li class="comment-item">
+            <li class="comment-item">
                 <span class="nickname">{{ o.name }}</span>
                 <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">{{ o.create_time }}</time>
                 <div class="text">
@@ -64,11 +65,87 @@
             {% endfor %}
 
 
+        </ul>
+    </div>
+    {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+    <br><br><br><br><br>
+    <h1>使用AJAX添加评论</h1>
+
+    <div class="comment-form">
+        <div class="row">
+            <div class="col-md-4">
+                <label for="id_name">名字：</label>
+                {{ cf.name }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_email">邮箱：</label>
+                {{ cf.email }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_url">网址：</label>
+                {{ cf.url }}
+            </div>
+            <div class="col-md-12">
+                <label for="id_content">评论：</label>
+                {{ cf.content }}
+                <button class="comment-btn" id="btn_commit">发表</button>
+            </div>
+        </div>    <!-- row -->
+    </div>
+    <div class="comment-list-panel">
+        <h3>评论列表，共 <span>{{ article.comment_set.count }}</span> 条评论</h3>
+        <ul class="comment-list list-unstyled" id="commentlist2">
+
+            {% for o in article.comment_set.all %}
+            <li class="comment-item">
+                <span class="nickname">{{ o.name }}</span>
+                <time class="submit-date" datetime="2012-11-09T23:15:57+00:00">{{ o.create_time }}</time>
+                <div class="text">
+                    {{ o.content }}
+                </div>
+            </li>
+            {% endfor %}
+
 
         </ul>
     </div>
 </section>
 
+
+<script>
+    $(function(){
+        $("#btn_commit").click(function(){
+            $.ajax({
+                url:"{% url 'comment:comment' article.id %}",
+                type:"post",
+                data:{
+                "name": $("#id_name").val(),
+                "email":$("#id_email").val(),
+                "url":$("#id_url").val(),
+                "content":$("#id_content").val(),
+                "csrfmiddlewaretoken":"{{ csrf_token }}",
+                },
+                success:function(data){
+                            $("#id_name").val(""),
+                            $("#id_email").val(""),
+                            $("#id_url").val(""),
+                            $("#id_content").val(""),
+                     $("#commentlist2").append('<li class="comment-item"><span class="nickname">'+ data.name+ '</span></li><time class="submit-date" datetime="2012-11-09T23:15:57+00:00">'+data.create_time+'</time><div class="text">'+ data.content+'</div>');
+                }
+            });
+        })
+    })
+</script>
 
 {% endblock %}
 
