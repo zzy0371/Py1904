@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     'DjangoUeditor',
     'haystack',
 ]
-
+# 中间件 自带特定功能
 MIDDLEWARE = [
+    # UpdateCacheMiddleware 必须作为第一个
+    # 'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,6 +57,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware'
+    # FetchFromCacheMiddleware必须作为最后一个
+
 ]
 
 ROOT_URLCONF = 'demo3.urls'
@@ -145,3 +150,12 @@ HAYSTACK_CONNECTIONS = {
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
 
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+#  Django 使用Redis缓存
+CACHES = {
+    "default": {
+        "BACKEND": "redis_cache.cache.RedisCache",
+        "LOCATION": "localhost:6379",
+        'TIMEOUT': 300,
+    },
+}

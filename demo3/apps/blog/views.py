@@ -5,6 +5,8 @@ from .models import *
 from .forms import ArticleForm,CommentForm
 # Create your views here.
 from django.core.paginator import Paginator,Page
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 def getpage(request,object_list,per_num):
     pagenum = request.GET.get("page")
@@ -12,8 +14,24 @@ def getpage(request,object_list,per_num):
     page = Paginator(object_list, per_num).get_page(pagenum)
     return page
 
+# @cache_page(timeout=60)
+def index(request):
+    value = cache.get("py1905")
+    print(value)
+    cache.set("py1905","hi")
+    value = cache.get("py1905")
+    print(value)
+    cache.clear("py1905")
+    value = cache.clear("py1905")
+    print(value)
+
+    articles = Article.objects.all()
+    page = getpage(request, articles, 1)
+    return render(request, 'blog/index.html', {"page": page})
+
 
 class IndexView(View):
+
     def get(self,request):
         articles = Article.objects.all()
         # paginator = Paginator(articles,1)
