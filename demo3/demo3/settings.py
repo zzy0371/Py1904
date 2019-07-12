@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'xadmin',
     'crispy_forms',
     'DjangoUeditor',
+    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,15 @@ MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIAFILES_DIRS = [os.path.join(BASE_DIR,'media')]
 
+
+# 配置分词
+HAYSTACK_CONNECTIONS = {
+    'default': {
+    'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
+    'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    }
+}
+
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 10
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

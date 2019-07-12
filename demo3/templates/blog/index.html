@@ -75,7 +75,6 @@
             <a href="#" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
         </div>
 
-
     </div>
 </article>
 {% endfor %}
@@ -95,14 +94,20 @@
         {% if page.has_previous %}
         <li class="col-md-2"><a href="?page={{ page.previous_page_number }}">上一页</a></li>
         {% endif %}
-
-        {% for i in page.paginator.page_range %}
-            {% if i == page.number %}
-                <li class="current col-md-1"><a href="?page={{i}}">{{ i }}</a></li>
+            {% if page.paginator.num_pages <= 7 %}
+                {% for i in page.paginator.page_range %}
+                    {% if i == page.number %}
+                        <li class="current col-md-1"><a href="?page={{i}}">{{ i }}</a></li>
+                    {% else %}
+                        <li class="col-md-1"><a href="?page={{i}}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
             {% else %}
-                <li class="col-md-1"><a href="?page={{i}}">{{ i }}</a></li>
+
+
             {% endif %}
-        {% endfor %}
+
+
 
         {% comment %}
         <li class="col-md-1"><a href="">...</a></li>
