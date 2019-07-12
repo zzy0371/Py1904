@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'DjangoUeditor',
     'haystack',
 ]
-# 中间件 自带特定功能
+# 中间件 自带特定功能 每一个请求均需要通过中间件
+# 中间件 可以改写请求与响应
+
 MIDDLEWARE = [
     # UpdateCacheMiddleware 必须作为第一个
     # 'django.middleware.cache.UpdateCacheMiddleware',
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'demo3.simplemiddleware.SimpleMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware'
     # FetchFromCacheMiddleware必须作为最后一个
 
