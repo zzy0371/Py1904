@@ -59,7 +59,7 @@ class Area(models.Model):
         return self.title
 
 class PollsUser(User):
-    telepone = models.CharField(max_length=11)
+    telepone = models.CharField(max_length=11,default="110")
 
 
 
